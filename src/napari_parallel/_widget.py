@@ -19,6 +19,7 @@ templateOutput = "XXXX"
 inputSubstring = "imread("
 outputSubstring = "imsave("
 viewerSubstring = "viewer"
+minNumLines = 15
 
 # function to check correctness ipv4 address with tcp-port
 def isValidIpv4AddressWithPort(addr, port):
@@ -134,6 +135,21 @@ class ParallelQWidget(QWidget):
         begStringOutput = self.textFieldOutputName.text()
         addressHost = self.textFieldSched.text()
         extensionOutput = self.textFieldExtension.text()
+
+        # check size of code for image processing
+        try:
+            # define number of rows
+            numRows = len(self.codeProcessing.split("\n"))
+            if numRows < minNumLines:
+                # change message in special label
+                self.labelMessage.setText("Image workflow was not specified!")
+                # return default answer
+                return
+        except Exception:
+            # change message in special label
+            self.labelMessage.setText("Image workflow was not specified!")
+            # return default answer
+            return
 
         # check correctness of regular expression
         try:
